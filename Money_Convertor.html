@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .converter {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        input, select {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+
+        /* Light mode */
+        .light {
+            background-color: white;
+            color: black;
+        }
+
+        .light input, .light select {
+            border-color: #ccc;
+        }
+
+        /* Dark mode */
+        .dark {
+            background-color: #333;
+            color: white;
+        }
+
+        .dark input, .dark select {
+            border-color: #555;
+            background-color: #444;
+            color: white;
+        }
+
+        .dark button {
+            background-color: #0056b3;
+        }
+        
+        .dark button:hover {
+            background-color: #004494;
+        }
+
+        h1 {
+            font-size: 26px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: green; /* Updated to green */
+        }
+
+        .toggle-button {
+            margin-top: 20px;
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: #007bff;
+            color: white;
+        }
+
+        .toggle-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Adjust font size for dark mode */
+        .dark h1 {
+            color: #4caf50; /* Green color for dark mode */
+        }
+    </style>
+</head>
+<body class="light">
+
+<h1>CONVERT YOUR CURRENCY</h1>
+
+<div class="converter">
+    <h2>Currency Converter</h2>
+    <input type="number" id="amount" placeholder="Amount" />
+    <select id="fromCurrency">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="INR">INR</option>
+        <option value="JPY">JPY</option>
+        <option value="AED">AED</option>
+        <option value="PKR">PKR</option>
+    </select>
+    <select id="toCurrency">
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="INR">INR</option>
+        <option value="JPY">JPY</option>
+        <option value="AED">AED</option>
+        <option value="PKR">PKR</option>
+    </select>
+    <button onclick="convertCurrency()">Convert</button>
+    <div id="result" class="result"></div>
+    <button class="toggle-button" onclick="toggleMode()">Switch to Dark Mode</button> <!-- Moved the toggle button here -->
+</div>
+
+<script>
+    const exchangeRates = {
+        'USD': 1.0,
+        'EUR': 0.85,
+        'GBP': 0.75,
+        'INR': 73.54,
+        'JPY': 110.06,
+        'AED': 3.67,  // Example exchange rate for AED to USD
+        'PKR': 166.75 // Example exchange rate for PKR to USD
+    };
+
+    function convertCurrency() {
+        const amount = parseFloat(document.getElementById('amount').value);
+        const fromCurrency = document.getElementById('fromCurrency').value;
+        const toCurrency = document.getElementById('toCurrency').value;
+
+        if (isNaN(amount) || amount <= 0) {
+            document.getElementById('result').innerText = "Please enter a valid amount.";
+            return;
+        }
+
+        const baseAmount = amount / exchangeRates[fromCurrency];
+        const convertedAmount = baseAmount * exchangeRates[toCurrency];
+        
+        document.getElementById('result').innerText = `${amount} ${fromCurrency} is equal to ${convertedAmount.toFixed(2)} ${toCurrency}`;
+    }
+
+    function toggleMode() {
+        const body = document.body;
+        const button = document.querySelector('.toggle-button');
+
+        if (body.classList.contains('light')) {
+            body.classList.remove('light');
+            body.classList.add('dark');
+            button.innerText = 'Switch to Light Mode';
+        } else {
+            body.classList.remove('dark');
+            body.classList.add('light');
+            button.innerText = 'Switch to Dark Mode';
+        }
+    }
+</script>
+
+</body>
+</html>
